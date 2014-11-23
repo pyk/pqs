@@ -1,10 +1,6 @@
 FROM debian:wheezy
 MAINTAINER Bayu Aldi Yansyah <bayualdiyansyah@gmail.com>
 
-# pre-installation
-# set data directory (http://www.postgresql.org/docs/9.3/static/creating-cluster.html)
-# backup of config, logs and databases
-
 # installing postgresql
 RUN apt-get update && apt-get install wget -y &&\
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main' > /etc/apt/sources.list.d/pgdg.list &&\
@@ -16,15 +12,19 @@ RUN apt-get update && apt-get install wget -y &&\
 # postgres user auto created when installing postgresql pkg
 USER postgres
 
-# # TODO: dynamically configured user and password for database
+# start postgresql service
 RUN /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-    createdb -O docker docker
+    psql --command "CREATE USER bayu WITH SUPERUSER PASSWORD 'bayu';" &&\
+    createdb -O bayu automata
 
-# configuring super user and database
-# set up remote connection
+# setup host based authentication
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
+
+# expose port
 EXPOSE 5432
+
+# mount data volumes
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+
 CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]

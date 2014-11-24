@@ -12,6 +12,15 @@ postgresql service
 
     $ docker run -d --name postgres bayu/pqs:v0
 
+### Stop service
+
+    $ docker stop postgres
+
+### Run stopped service
+
+    $ docker start postgres
+
+
 ## Database maintenance
 
 ### Installation method   
@@ -44,15 +53,29 @@ with command below:
 NOTE: this command must running as `postgres` user.
 
 
-### Manage table
+## Manage data
+Manage data on `postgres` service using running container 
+as a client.
 
-3.  How to create table?
-4.  How to alter table?
+Make sure `postgres` server already running
+
+    $ docker ps
+    CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS               NAMES
+    9e4232251c2d        bayu/pqs:v0         "/usr/lib/postgresql   10 hours ago        Up 2 seconds        5432/tcp            pg_server 
+
+Then run a `postgres` client based on same image to manage data. Don't forget
+to link `pg_server` to `pg_client`
+
+    $ docker run -it --name pg_client --entrypoint /bin/bash --link pg_server:database bayu/pqs:v0
+
+Now you are ready to manage data using `psql`
+
+    $ psql -h database -U bayu -d automata
 
 
 ## Todo
-
 -   configure timezone to GMT+7
 -   use persistent storage for database directory, sync with
     container data-only
 -   dynamically configured user and password for database
+-   keep data when container removed

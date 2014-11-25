@@ -25,18 +25,18 @@ postgresql service
 
 ### Installation method   
 Instalation using debian package. No need to initialize
-database cluster. Because standart install already creates
+database cluster. Because standart installation already creates
 a default cluster.
 
 ### Configuration file   
-Default installation /etc/postgresql/9.3/main/postgresql.conf
+Default installation `/etc/postgresql/9.3/main/postgresql.conf`
 
 ### Where is data saved? (database directory)   
-Default debian installation use /var/lib/postgresql/9.3/main
+Default debian installation use `/var/lib/postgresql/9.3/main`
 
 ### Host Based Authentication file   
 This file for setting up client authentication.
-Default installation /etc/postgresql/9.3/main/pg_hba.conf 
+Default installation `/etc/postgresql/9.3/main/pg_hba.conf` 
 
 ### Create extra user and database   
 
